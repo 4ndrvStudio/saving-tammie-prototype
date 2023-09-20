@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 namespace w4ndrv.Master
@@ -17,8 +17,6 @@ namespace w4ndrv.Master
         {
             public Vector2 Move;
             public float CameraEulerY;
-            public bool IsLockTarget;
-            public Vector3 LockTarget;
 
             private uint _tick;
             public void Dispose() { }
@@ -50,7 +48,7 @@ namespace w4ndrv.Master
         [SerializeField] private Animator _animator;
         [SerializeField] private CharacterController _controller;
         [SerializeField] private MasterInput _masterInput;
-        //[SerializeField] private HunterState _hunterState;
+        [SerializeField] private MasterState _masterState;
         private GameObject _mainCamera;
 
         [Header("Stats")]
@@ -63,11 +61,7 @@ namespace w4ndrv.Master
 
         private float _animationBlend;
         private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
-        private float _verticalVelocity;
-        private float _terminalVelocity = 53.0f;
-
-        [SerializeField] private bool IsLockTest;
+        private float _verticalVelocity =-9.18f;
 
         private void Awake()
         {
@@ -132,7 +126,6 @@ namespace w4ndrv.Master
             if (base.IsOwner)
             {
                 MoveWithData(_clientMoveData, Time.deltaTime);
-                IsLockTest = _clientMoveData.IsLockTarget;
             }
         }
         [Reconcile]
@@ -146,16 +139,11 @@ namespace w4ndrv.Master
         {
             md = default;
 
-            bool isLock = _clientMoveData.IsLockTarget;
-            if (_masterInput.PlayLockTarget)
-                isLock = !isLock;
-            _masterInput.PlayLockTarget = false;
 
             md = new MoveData()
             {
-                Move = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),
+                Move = _masterInput.Movement,
                 CameraEulerY = _mainCamera.transform.eulerAngles.y,
-                IsLockTarget = isLock
             };
 
 
@@ -175,7 +163,6 @@ namespace w4ndrv.Master
 
         private void MoveWithData(MoveData md, float delta)
         {
-            _animator.SetBool("isLockTarget", md.IsLockTarget);
 
             float targetSpeed = MoveSpeed;
             float targetAnimationSpeed = 1f;
@@ -191,40 +178,25 @@ namespace w4ndrv.Master
 
             Vector3 inputDirection = new Vector3(md.Move.x, 0.0f, md.Move.y).normalized;
 
-            if (md.Move != Vector2.zero)
+            if (md.Move != Vector2.zero && _masterState.IsAction == false)
             {
-                if (md.IsLockTarget == true)
-                {
-                    Vector3 direction = Vector3.zero - transform.position;
 
-                    _targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                }
-                else
-                    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + md.CameraEulerY;
+                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + md.CameraEulerY;
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0.0f, _targetRotation, 0.0f), RotationSmoothTime * delta);
             }
 
-            Vector3 targetDirection;
-            if (md.IsLockTarget == false)
-                targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-            else
-                targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
-             
-            //if (_hunterState.IsAction == false)
-            //{
-            _controller.Move(targetDirection.normalized * (targetSpeed * delta) +
-            new Vector3(0.0f, _verticalVelocity, 0.0f) * delta);
-            //}
 
-            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-
+            if (_masterState.IsAction == false )
+            {
+                _controller.Move(targetDirection.normalized * (targetSpeed * delta) +
+                new Vector3(0.0f, _verticalVelocity, 0.0f) * delta);
+            }
 
             _animator.SetFloat(_animIDSpeed, _animationBlend);
 
-            _animator.SetFloat("movementX", md.Move.x);
-            _animator.SetFloat("movementY", md.Move.y);
 
         }
 

@@ -1848,14 +1848,17 @@ GameObject:
   - component: {fileID: 6045966834422929346}
   - component: {fileID: 7443730279708721481}
   - component: {fileID: 3728234280179446684}
+  - component: {fileID: 1355229976361086849}
   - component: {fileID: 6513657249100617736}
-  m_Layer: 0
+  - component: {fileID: 1934401778426881971}
+  - component: {fileID: 5940384984539970124}
+  m_Layer: 6
   m_Name: Master
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8691991333131286432
 Transform:
   m_ObjectHideFlags: 0
@@ -1891,13 +1894,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0.8
+  m_Height: 1.4
   m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!114 &5514783098595483972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1918,11 +1921,14 @@ MonoBehaviour:
   - {fileID: 6162179577197295832}
   - {fileID: 6045966834422929346}
   - {fileID: 7443730279708721481}
+  - {fileID: 1355229976361086849}
   - {fileID: 6513657249100617736}
+  - {fileID: 1934401778426881971}
+  - {fileID: 5940384984539970124}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
+    Position: {x: 0, y: 5, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
@@ -2073,7 +2079,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a47118060495b4dbfcf4606b8b505a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayLockTarget: 0
+  Movement: {x: 0, y: 0}
+  PlayAttack: 0
+  PlaySkill1: 0
+--- !u!114 &1355229976361086849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100049640951642759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beffffd9d9a5aac43961bbb6e56cec4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 4
+  _addedNetworkObject: {fileID: 5514783098595483972}
+  _networkObjectCache: {fileID: 5514783098595483972}
+  _animator: {fileID: 2205405110638004295}
+  <IsAction>k__BackingField: 0
+  <IsAbilityCanMove>k__BackingField: 0
+  <IsDeath>k__BackingField: 0
 --- !u!114 &6513657249100617736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2086,15 +2113,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb8c9c79965d6f640a117231319ad495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 5514783098595483972}
   _networkObjectCache: {fileID: 5514783098595483972}
   _animator: {fileID: 2205405110638004295}
   _controller: {fileID: 6019073186477456408}
   _masterInput: {fileID: 3728234280179446684}
+  _masterState: {fileID: 1355229976361086849}
   MoveSpeed: 5
   SpeedChangeRate: 20
   RotationSmoothTime: 12
+--- !u!114 &1934401778426881971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100049640951642759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0654a487d7132f4a92d1f32be07fff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 6
+  _addedNetworkObject: {fileID: 5514783098595483972}
+  _networkObjectCache: {fileID: 5514783098595483972}
+  _animator: {fileID: 2205405110638004295}
+  _masterInput: {fileID: 3728234280179446684}
+  _masterState: {fileID: 1355229976361086849}
+  _masterAimAssist: {fileID: 5940384984539970124}
+  AttackCount: 0
+  _normalAttackIndex: 0
+  _normalAttackList:
+  - attack1
+  - attack2
+  - attack3
+  Skill1Count: 0
+  _skill1Time: 0
+--- !u!114 &5940384984539970124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100049640951642759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 127aa51c5552af144ba6315a4e3922d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 7
+  _addedNetworkObject: {fileID: 5514783098595483972}
+  _networkObjectCache: {fileID: 5514783098595483972}
+  _playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _nearestToAttack: []
+  _nearestTemp: Infinity
+  _assistantRangeAngle: 120
+  _attackMoveDuration: 0.5
+  _attackMoveDis: 0.2
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  SelectedNearest: {fileID: 0}
 --- !u!1 &6161475215306651424
 GameObject:
   m_ObjectHideFlags: 0
