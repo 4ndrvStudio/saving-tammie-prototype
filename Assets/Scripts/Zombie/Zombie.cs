@@ -24,11 +24,13 @@ namespace w4ndrv.Enemy
         [SerializeField] private List<Collider> _playersInRange;
         [SerializeField] private Collider _selectedPlayer;
 
+        public bool IsDeath;
+
         private void Awake()
         {
-            _navMeshAgent.speed = _speedWalk;
             InstanceFinder.TimeManager.OnUpdate += TimeManager_OnUpdate;
         }
+
         private void OnDestroy()
         {
             if (InstanceFinder.TimeManager != null)
@@ -39,11 +41,15 @@ namespace w4ndrv.Enemy
 
         private void TimeManager_OnUpdate()
         {
+
             if (IsServer == false)
                 return;
 
-            CheckPlayerInRange();
-
+            IsDeath = _animator.GetCurrentAnimatorStateInfo(1).IsTag("Death");
+            if (!IsDeath)
+                CheckPlayerInRange();
+            else
+                Stop(transform);
         }
         private void Follow(Transform targetPos)
         {
@@ -56,17 +62,22 @@ namespace w4ndrv.Enemy
         }
         private void Stop(Transform target)
         {
-            _animator.SetFloat("speed", 0);
-            _animator.SetBool("isAttack", true);
+            if (!IsDeath)
+            {
+                _animator.SetFloat("speed", 0);
+                _animator.SetBool("isAttack", true);
+                //aim rotate
+                Vector3 from = target.transform.position - transform.position;
+                Vector2 to = transform.forward;
+                from.y = 0;
+                var rotation = Quaternion.LookRotation(from);
+                transform.DORotateQuaternion(rotation, 0f);
+            }
+
             _navMeshAgent.speed = 0;
             _navMeshAgent.isStopped = true;
 
-            //aim rotate
-            Vector3 from = target.transform.position - transform.position;
-            Vector2 to = transform.forward;
-            from.y = 0;
-            var rotation = Quaternion.LookRotation(from);
-            transform.DORotateQuaternion(rotation, 0f);
+
 
         }
 
@@ -92,7 +103,6 @@ namespace w4ndrv.Enemy
 
         private void CheckPlayerInRange()
         {
-
             Collider[] rangeTemp = Physics.OverlapSphere(transform.position, _viewRadius, _playerMask);
 
             _playersInRange = rangeTemp.ToList();
@@ -113,8 +123,8 @@ namespace w4ndrv.Enemy
 
                     if (_selectedPlayer == null && !masterState.IsDeath)
                         _selectedPlayer = _playersInRange[i];
-               
-                    if(Vector3.Distance(_selectedPlayer.transform.position, transform.position) > _viewRadius) 
+
+                    if (Vector3.Distance(_selectedPlayer.transform.position, transform.position) > _viewRadius)
                         _selectedPlayer = null;
                 }
 
@@ -124,7 +134,6 @@ namespace w4ndrv.Enemy
             {
                 Vector3 dirToPlayer = (_selectedPlayer.transform.position - transform.position).normalized;
                 float dstToPlayer = Vector3.Distance(transform.position, _selectedPlayer.transform.position);
-
                 // Check Player In Range
                 if (!Physics.Raycast(transform.position, dirToPlayer, dstToPlayer, _obstacleMask))
                 {
@@ -134,21 +143,9 @@ namespace w4ndrv.Enemy
                 {
                     FollowAndAttack(_tammieTransform);
                 }
-
-                // // Check player Exit
-                // if (dstToPlayer > _viewRadius)
-                // {
-                //     m_playerInRange = false;
-                // }
-                // // Check 
-                // if (m_playerInRange)
-                // {
-                //     m_PlayerPosition = _enemyBrain.SelectedPlayer.transform.position;
-                // }
-            } else {
-                FollowAndAttack(_tammieTransform);
-
             }
+            else
+                FollowAndAttack(_tammieTransform);
         }
 
     }
