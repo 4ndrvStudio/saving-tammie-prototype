@@ -1296,6 +1296,8 @@ MonoBehaviour:
   _bloodFx: {fileID: 6837762133911812599}
   HP: 10
   _canDamage: 0
+  _bodyMesh: {fileID: 5639107724029953382}
+  _headMesh: {fileID: 5639107724014096386}
 --- !u!1 &1941756818
 GameObject:
   m_ObjectHideFlags: 0
@@ -3982,7 +3984,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8fd192304df88db499eedb3456dc6d67, type: 2}
+  - {fileID: 2100000, guid: e106604a04797ec44ad6df7dbb5d541b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4185,7 +4187,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.8
+      scalar: 0.5
       minScalar: 0.0001
       maxCurve:
         serializedVersion: 2
