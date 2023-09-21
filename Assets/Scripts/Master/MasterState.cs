@@ -17,6 +17,9 @@ namespace w4ndrv.Master
 
         [field: SyncVar(ReadPermissions = ReadPermission.ExcludeOwner)]
         public bool IsAbilityCanMove { get; [ServerRpc(RunLocally = true)] set; }
+        [field: SyncVar(ReadPermissions = ReadPermission.ExcludeOwner)]
+        public bool IsAbility { get; [ServerRpc(RunLocally = true)] set; }
+
 
         [field: SyncVar(ReadPermissions = ReadPermission.ExcludeOwner)]
         public bool IsDeath { get; [ServerRpc(RunLocally = true)] set; }

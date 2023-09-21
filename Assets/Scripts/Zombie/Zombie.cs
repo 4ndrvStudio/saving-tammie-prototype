@@ -10,6 +10,7 @@ namespace w4ndrv.Enemy
     using FishNet;
     using FishNet.Object;
     using DG.Tweening;
+    using w4ndrv.Civilian;
 
     public class Zombie : NetworkBehaviour
     {
@@ -19,7 +20,6 @@ namespace w4ndrv.Enemy
         [SerializeField] private Animator _animator;
         [SerializeField] private float _speedWalk = 1.5f;
         [SerializeField] private float _speedRun = 4f;
-        [SerializeField] private Transform _tammieTransform;
         [SerializeField] private float _viewRadius = 5f;
         [SerializeField] private List<Collider> _playersInRange;
         [SerializeField] private Collider _selectedPlayer;
@@ -141,11 +141,11 @@ namespace w4ndrv.Enemy
                 }
                 else
                 {
-                    FollowAndAttack(_tammieTransform);
+                    FollowAndAttack(Tammie.Instance.transform);
                 }
             }
             else
-                FollowAndAttack(_tammieTransform);
+                FollowAndAttack(Tammie.Instance.transform);
         }
 
     }
