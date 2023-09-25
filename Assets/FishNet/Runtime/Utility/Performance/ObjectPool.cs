@@ -2,6 +2,7 @@
 using FishNet.Object;
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace FishNet.Utility.Performance
 {
@@ -57,6 +58,12 @@ namespace FishNet.Utility.Performance
         /// <param name="count">Quantity to spawn.</param>
         /// <param name="asServer">True if storing prefabs for the server collection. This is only applicable when using DualPrefabObjects.</param>
         public virtual void CacheObjects(NetworkObject prefab, int count, bool asServer) { }
+   
+        //Custom Lib
+        //public virtual NetworkObject GetCacheObjects(int prefabId, ushort collectionId, bool asServer) => null;
+
+        public virtual  Dictionary<int, Stack<NetworkObject>> GetCacheObjects(int collectionId) => null;
+
     }
 
 }

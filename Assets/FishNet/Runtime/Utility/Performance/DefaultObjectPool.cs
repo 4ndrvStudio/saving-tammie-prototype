@@ -19,6 +19,8 @@ namespace FishNet.Utility.Performance
         private List<Dictionary<int, Stack<NetworkObject>>> _cache = new List<Dictionary<int, Stack<NetworkObject>>>();
         #endregion
 
+        public override Dictionary<int, Stack<NetworkObject>> GetCacheObjects(int collectionId) => _cache[collectionId];
+
         #region Serialized.
         /// <summary>
         /// True if to use object pooling.

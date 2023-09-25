@@ -7,8 +7,11 @@ namespace w4ndrv.Enemy
     using FishNet.Object;
     using FishNet.Object.Synchronizing;
     using DG.Tweening;
+    using FishNet.Connection;
+
     public class ZombieDamageable : NetworkBehaviour
     {
+
         [SerializeField] private Animator _animator;
         [SerializeField] private CapsuleCollider _collider;
         [SerializeField] private GameObject _bloodFx;
@@ -27,30 +30,48 @@ namespace w4ndrv.Enemy
         {
             base.OnStartServer();
             _canDamage = true;
+            _collider.enabled = true;
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
-            Material[] materials = _bodyMesh.materials;
-            _bodyMesh.material = new Material(materials[0]);
-            _zombieMat.Add(_bodyMesh.materials[0]);
-            Material[] materials2 = _headMesh.materials;
-            _headMesh.material = new Material(materials[0]);
-            _zombieMat.Add( _headMesh.materials[0]);
+
+            if (_zombieMat.Count == 0)
+            {
+                Material[] materials = _bodyMesh.materials;
+                _bodyMesh.material = new Material(materials[0]);
+                _zombieMat.Add(_bodyMesh.materials[0]);
+                Material[] materials2 = _headMesh.materials;
+                _headMesh.material = new Material(materials[0]);
+                _zombieMat.Add(_headMesh.materials[0]);
+            }
 
         }
+        // public override void OnSpawnServer(NetworkConnection connection)
+        // {
+        //     base.OnSpawnServer(connection);
+        //      _canDamage = true;
+        // }
+        // public void OnEnable() {
+        //     if(IsClient)
+        //     _zombieMat.ForEach(mat => {
+        //            mat.DOColor(Color.black, "_EmissionColor", 0);
+        //     });
 
-        public void TakeDamage(int dame )
+        // }
+
+
+        public void TakeDamage(int dame)
         {
             if (HP < 0) _canDamage = false;
 
             if (IsServer == false && _canDamage == false)
                 return;
-       
+
             HP -= dame;
         }
-        
+
 
         private void on_health(int prev, int next, bool asServer)
         {
@@ -75,17 +96,17 @@ namespace w4ndrv.Enemy
 
             if (IsClient)
             {
-                _zombieMat.ForEach(_mat =>
+                _zombieMat.ForEach(mat =>
                 {
-                    _mat.DOColor(Color.white, "_EmissionColor", 0f).OnComplete(() =>
+                    mat.DOColor(Color.white, "_EmissionColor", 0f).OnComplete(() =>
                      {
-                         _mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
+                         mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
                          {
-                             _mat.DOColor(Color.white, "_EmissionColor", 0.01f).OnComplete(() =>
+                             mat.DOColor(Color.white, "_EmissionColor", 0.01f).OnComplete(() =>
                              {
-                                 _mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
+                                 mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
                                  {
-                                     _mat.DOColor(Color.black, "_EmissionColor", 0);
+                                     mat.DOColor(Color.black, "_EmissionColor", 0);
                                  });
                              });
                          });
@@ -98,7 +119,11 @@ namespace w4ndrv.Enemy
 
         }
 
-        private void DespawnEnemy() => Despawn(this.gameObject);
+        private void DespawnEnemy()
+        {
+            if (IsServer)
+                ServerManager.Despawn(this.gameObject, DespawnType.Pool);
+        }
 
     }
 }
