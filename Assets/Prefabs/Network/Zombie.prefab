@@ -537,7 +537,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 1745339749
   <SceneId>k__BackingField: 0
@@ -655,7 +655,6 @@ MonoBehaviour:
   _animator: {fileID: 5102204748143834508}
   _speedWalk: 1.5
   _speedRun: 4
-  _tammieTransform: {fileID: 0}
   _viewRadius: 5
   _playersInRange: []
   _selectedPlayer: {fileID: 0}
@@ -701,7 +700,7 @@ MonoBehaviour:
   _animator: {fileID: 5102204748143834508}
   _collider: {fileID: 2751692695253058562}
   _bloodFx: {fileID: 5347701564437295085}
-  HP: 10
+  HP: 3
   _canDamage: 0
   _bodyMesh: {fileID: 1061168067735498036}
   _headMesh: {fileID: 3179841327822260902}
@@ -1202,8 +1201,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.7075472, g: 0, b: 0, a: 1}
-      maxColor: {r: 0.3962264, g: 0, b: 0, a: 1}
+      minColor: {r: 0.2169396, g: 0.7058824, b: 0, a: 1}
+      maxColor: {r: 0.08915142, g: 0.39607844, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}

@@ -41,14 +41,16 @@ namespace w4ndrv.Enemy
 
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int dame )
         {
             if (HP < 0) _canDamage = false;
 
             if (IsServer == false && _canDamage == false)
                 return;
-            HP--;
+       
+            HP -= dame;
         }
+        
 
         private void on_health(int prev, int next, bool asServer)
         {
@@ -77,11 +79,11 @@ namespace w4ndrv.Enemy
                 {
                     _mat.DOColor(Color.white, "_EmissionColor", 0f).OnComplete(() =>
                      {
-                         _mat.DOColor(Color.red, "_EmissionColor", 0.1f).OnComplete(() =>
+                         _mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
                          {
                              _mat.DOColor(Color.white, "_EmissionColor", 0.01f).OnComplete(() =>
                              {
-                                 _mat.DOColor(Color.red, "_EmissionColor", 0.1f).OnComplete(() =>
+                                 _mat.DOColor(Color.green, "_EmissionColor", 0.1f).OnComplete(() =>
                                  {
                                      _mat.DOColor(Color.black, "_EmissionColor", 0);
                                  });

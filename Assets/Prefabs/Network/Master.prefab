@@ -1040,7 +1040,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 13
+  <PrefabId>k__BackingField: 14
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 1745339749
   <SceneId>k__BackingField: 0
@@ -1183,6 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a47118060495b4dbfcf4606b8b505a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _masterState: {fileID: 2937113754771570836}
   Movement: {x: 0, y: 0}
   PlayAttack: 0
   PlaySkill1: 0

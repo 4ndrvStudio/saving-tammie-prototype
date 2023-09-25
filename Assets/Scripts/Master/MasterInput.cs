@@ -9,9 +9,10 @@ namespace w4ndrv.Master
     using DG.Tweening;
     using UnityEngine.UI;
     using System;
+    using FishNet.Object;
 
     public enum EAbilitySlot { Slot1, Slot2, Slot3, Slot4 };
-    
+
     [Serializable]
     public class AbilitySlot
     {
@@ -20,7 +21,7 @@ namespace w4ndrv.Master
         public float ReloadTime;
         public bool CanUse = true;
         public Button BtnAbility;
-        
+
         public void Reload()
         {
             if (ImgReload == null)
@@ -32,8 +33,9 @@ namespace w4ndrv.Master
         }
     }
 
-    public class MasterInput : MonoBehaviour
+    public class MasterInput : NetworkBehaviour
     {
+        [SerializeField] private MasterState _masterState;
         public Vector2 Movement;
         public bool PlayAttack;
         public bool PlaySkill1;
@@ -48,13 +50,15 @@ namespace w4ndrv.Master
 
         void SetupController()
         {
+            //  if (IsOwner == false)
+            //      return;
             AbilitySlots = UIController.Instance.AbilitySlots;
 
             AbilitySlots.ForEach(abilitySlot =>
             {
                 abilitySlot.BtnAbility.onClick.AddListener(() =>
                 {
-                    if (abilitySlot.CanUse)
+                    if (abilitySlot.CanUse && _masterState.IsAction != true && _masterState.IsAbilityCanMove != true)
                     {
                         UseButton(abilitySlot.SlotIndex);
                         abilitySlot.Reload();

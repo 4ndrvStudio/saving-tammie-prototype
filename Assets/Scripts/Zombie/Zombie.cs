@@ -29,6 +29,8 @@ namespace w4ndrv.Enemy
         private void Awake()
         {
             InstanceFinder.TimeManager.OnUpdate += TimeManager_OnUpdate;
+                        _animator.SetFloat("speed", 1);
+
         }
 
         private void OnDestroy()

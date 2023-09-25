@@ -24,7 +24,7 @@ namespace w4ndrv.Weapon
         [ServerRpc]
         public void HitEnemy(ZombieDamageable zombieDamageable)
         {
-            zombieDamageable.TakeDamage();
+            zombieDamageable.TakeDamage(1);
         }
     }
 }

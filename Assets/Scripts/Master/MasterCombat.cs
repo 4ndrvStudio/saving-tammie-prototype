@@ -10,6 +10,7 @@ namespace w4ndrv.Master
     using FishNet.Transporting;
     using FishNet.Object.Synchronizing;
     using System.Threading.Tasks;
+    using w4ndrv.Enemy;
 
     public class MasterCombat : NetworkBehaviour
     {
@@ -211,10 +212,13 @@ namespace w4ndrv.Master
 
             if (_normalAttackIndex >= _normalAttackList.Count)
                 _normalAttackIndex = 0;
-
-            _masterAimAssist.ExecuteAimSupport();
-
             _animator.Play(_normalAttackList[_normalAttackIndex], 1, 0);
+
+            if (IsOwner || IsServer)
+            {
+                _masterAimAssist.ExecuteAimSupport();
+            }
+
         }
 
         public void PlaySkill1()
@@ -233,31 +237,39 @@ namespace w4ndrv.Master
             _animator.Play("skill2", 1, 0);
             Collider[] enemyCollider = Physics.OverlapSphere(transform.position, 9f, _enemyMask);
 
-            if (IsClient)
+            if (IsServer == false || IsServer)
             {
                 GameObject fxStart = Instantiate(_fxStartSkill2, transform.position, Quaternion.identity);
                 fxStart.SetActive(true);
                 Destroy(fxStart, 2f);
+
                 for (int i = 0; i < enemyCollider.Length; i++)
                 {
-                    GameObject fxSelect = Instantiate(_fxSelectSkill2, enemyCollider[i].transform.position + Vector3.up *1f, Quaternion.identity);
+                    GameObject fxSelect = Instantiate(_fxSelectSkill2, enemyCollider[i].transform.position + Vector3.up * 1f, _fxSelectSkill2.transform.rotation);
                     fxSelect.SetActive(true);
                     Destroy(fxSelect, 1.5f);
                 }
             }
-
-
-            if (IsServer)
+            for (int i = 0; i < enemyCollider.Length; i++)
             {
-                for (int i = 0; i < enemyCollider.Length; i++)
+                await Task.Delay(200);
+                if (IsClient)
                 {
-                    await Task.Delay(500);
                     GameObject fxBoom = Instantiate(_fxBoomSkill2, enemyCollider[i].transform.position, Quaternion.identity);
-                    InstanceFinder.ServerManager.Spawn(fxBoom);
                     fxBoom.SetActive(true);
                     Destroy(fxBoom, 2f);
                 }
+                if (IsServer)
+                {
+                    if (enemyCollider[i].TryGetComponent<ZombieDamageable>(out var zombieDamageable))
+                    {
+                        zombieDamageable.TakeDamage(10);
+                    }
+
+                }
+
             }
+
 
         }
 
