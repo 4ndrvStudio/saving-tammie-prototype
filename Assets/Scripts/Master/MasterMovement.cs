@@ -80,7 +80,6 @@ namespace w4ndrv.Master
             }
         }
 
-
         public override void OnStartClient()
         {
             base.OnStartClient();

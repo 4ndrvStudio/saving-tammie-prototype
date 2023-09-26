@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using w4ndrv.Core;
+using w4ndrv.Sound;
 
 namespace w4ndrv.UI
 {
@@ -24,6 +25,7 @@ namespace w4ndrv.UI
                     User.SetUserName(_inputName.text);
                     _networkHud.OnClick_Client();
                     UIManager.Instance.ToggleView(ViewName.Controller);
+                    SoundManager.Instance.PlayBackground(EBackgroundType.InGame);
                 }
                 else
                     UIManager.Instance.ShowAlert("Your name length must be greater than 3 and lower than 7 character!", AlertType.Warning);

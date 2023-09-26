@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace w4ndrv.Core
 {
+    using FishNet.Connection;
+
     public static class User 
     {
+
+        public static NetworkConnection Owner;
         //Name
         private static string _userName { get; set; }
         public static string UserName => _userName;
@@ -13,6 +17,7 @@ namespace w4ndrv.Core
         //Score
         private static int _score { get; set; }
         public static int Score => _score;
+
 
         //Currency
         //Abilities 

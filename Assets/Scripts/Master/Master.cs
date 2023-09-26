@@ -37,6 +37,7 @@ namespace w4ndrv.Master
 
             if (Instance == null)
                 Instance = this;
+            User.Owner = base.Owner;
 
             if (string.IsNullOrEmpty(User.UserName))
             {

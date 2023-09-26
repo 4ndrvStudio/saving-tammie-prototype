@@ -49,7 +49,6 @@ namespace w4ndrv.Master
         [SerializeField] private MasterState _masterState;
         [SerializeField] private MasterAimAssist _masterAimAssist;
 
-
         //Normal Attack
         [SyncVar(WritePermissions = WritePermission.ClientUnsynchronized)]
         public int AttackCount;
@@ -89,7 +88,6 @@ namespace w4ndrv.Master
             _lastSkill1Count = Skill1Count;
             _lastSkill2Count = Skill2Count;
             _skill1Time = 0;
-
         }
         private void OnDestroy()
         {

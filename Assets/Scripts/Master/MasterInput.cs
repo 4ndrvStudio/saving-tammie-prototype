@@ -89,6 +89,7 @@ namespace w4ndrv.Master
         void Update()
         {
             if (IsOwner == false || _masterDamageable.HP <= 0) return;
+
             float horizontal = Input.GetAxisRaw("Horizontal") + View_Controller.Instance.MovementJoystick.Direction.x;
             float vertical = Input.GetAxisRaw("Vertical") + View_Controller.Instance.MovementJoystick.Direction.y;
             Movement.x = horizontal;
