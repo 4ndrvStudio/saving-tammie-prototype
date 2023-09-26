@@ -222,7 +222,7 @@ namespace w4ndrv.Master
         public void PlaySkill1()
         {
             _animator.SetBool("skill1", true);
-            _skill1Time = 1f;
+            _skill1Time = 7f;
         }
 
         void OnDrawGizmosSelected()
@@ -243,29 +243,34 @@ namespace w4ndrv.Master
 
                 for (int i = 0; i < enemyCollider.Length; i++)
                 {
-                    GameObject fxSelect = Instantiate(_fxSelectSkill2, enemyCollider[i].transform.position + Vector3.up * 1f, _fxSelectSkill2.transform.rotation);
-                    fxSelect.SetActive(true);
-                    Destroy(fxSelect, 1.5f);
+                    if (enemyCollider[i] != null)
+                    {
+                        GameObject fxSelect = Instantiate(_fxSelectSkill2, enemyCollider[i].transform.position + Vector3.up * 1f, _fxSelectSkill2.transform.rotation);
+                        fxSelect.SetActive(true);
+                        Destroy(fxSelect, 1.5f);
+                    }
                 }
             }
             for (int i = 0; i < enemyCollider.Length; i++)
             {
-                await Task.Delay(200);
-                if (IsClient)
+                if (enemyCollider[i] != null)
                 {
-                    GameObject fxBoom = Instantiate(_fxBoomSkill2, enemyCollider[i].transform.position, Quaternion.identity);
-                    fxBoom.SetActive(true);
-                    Destroy(fxBoom, 2f);
-                }
-                if (IsServer)
-                {
-                    if (enemyCollider[i].TryGetComponent<ZombieDamageable>(out var zombieDamageable))
+                    await Task.Delay(200);
+                    if (IsClient)
                     {
-                        zombieDamageable.TakeDamage(10);
+                        GameObject fxBoom = Instantiate(_fxBoomSkill2, enemyCollider[i].transform.position, Quaternion.identity);
+                        fxBoom.SetActive(true);
+                        Destroy(fxBoom, 2f);
                     }
+                    if (IsServer)
+                    {
+                        if (enemyCollider[i].TryGetComponent<ZombieDamageable>(out var zombieDamageable))
+                        {
+                            zombieDamageable.TakeDamage(10);
+                        }
 
+                    }
                 }
-
             }
 
 

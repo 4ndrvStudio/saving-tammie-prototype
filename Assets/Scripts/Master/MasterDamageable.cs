@@ -22,20 +22,22 @@ namespace w4ndrv.Master
 
         private bool canDamage = true;
 
+        public override void OnSpawnServer(NetworkConnection connection)
+        {
+            base.OnSpawnServer(connection);
+            canDamage = true;
+            HP = 100;
+        }
+     
         public override void OnStartClient()
         {
             base.OnStartClient();
-            
-            if(IsServer)
-            {
-                HP = 100;
-                canDamage = true;
-            }
-               
+            canDamage = true;
         }
 
-        private async void on_health(int prev, int next, bool asServer)
+        private void on_health(int prev, int next, bool asServer)
         {
+            Debug.Log("Take Damage!");
             //interact in owner
             if (IsOwner == true && canDamage == true)
             {
@@ -63,6 +65,10 @@ namespace w4ndrv.Master
             if (IsServer == false)
                 return;
             HP-= damge;
+            Debug.Log("Take Dame: " + true);
+            Debug.Log("Collider: " + _controller.enabled);
+            Debug.Log("CanDamage: " + canDamage);
+
         }
 
         public async void TakeOutGame()

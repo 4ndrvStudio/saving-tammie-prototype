@@ -12,7 +12,7 @@ namespace w4ndrv.Master
 
     public class Master : NetworkBehaviour
     {
-        public static Master Instance;
+        public static Master Instance;        
 
         [Header("Body Parts")]
         [SerializeField] private Transform _body;
@@ -26,11 +26,8 @@ namespace w4ndrv.Master
         {
             _nameText.text = next;
         }
-
         public override void OnStartClient()
         {
-
-
             base.OnStartClient();
             if (IsOwner == false)
                 return;

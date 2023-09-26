@@ -17,7 +17,7 @@ namespace w4ndrv.Enemy
         [SerializeField] private GameObject _bloodFx;
 
         [SyncVar(WritePermissions = WritePermission.ServerOnly, OnChange = nameof(on_health))]
-        public int HP = 10;
+        public int HP = 3;
 
         [SerializeField] private bool _canDamage = true;
 
@@ -25,18 +25,19 @@ namespace w4ndrv.Enemy
         [SerializeField] private MeshRenderer _headMesh;
         [SerializeField] private List<Material> _zombieMat = new();
 
-
-        public override void OnStartServer()
+        public override void OnSpawnServer(NetworkConnection connection)
         {
-            base.OnStartServer();
+            base.OnSpawnServer(connection);
             _canDamage = true;
             _collider.enabled = true;
+            HP = 3;
         }
 
         public override void OnStartClient()
         {
             base.OnStartClient();
-
+            _canDamage = true;
+            _collider.enabled = true;
             if (_zombieMat.Count == 0)
             {
                 Material[] materials = _bodyMesh.materials;
@@ -48,23 +49,11 @@ namespace w4ndrv.Enemy
             }
 
         }
-        // public override void OnSpawnServer(NetworkConnection connection)
-        // {
-        //     base.OnSpawnServer(connection);
-        //      _canDamage = true;
-        // }
-        // public void OnEnable() {
-        //     if(IsClient)
-        //     _zombieMat.ForEach(mat => {
-        //            mat.DOColor(Color.black, "_EmissionColor", 0);
-        //     });
-
-        // }
 
 
         public void TakeDamage(int dame)
         {
-            if (HP < 0) _canDamage = false;
+            if (HP <= 0) _canDamage = false;
 
             if (IsServer == false && _canDamage == false)
                 return;
@@ -75,7 +64,7 @@ namespace w4ndrv.Enemy
 
         private void on_health(int prev, int next, bool asServer)
         {
-            if (HP < 0)
+            if (HP <= 0)
             {
                 _animator.Play("death", 1, 0);
                 _collider.enabled = false;
