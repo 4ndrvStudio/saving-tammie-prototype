@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using w4ndrv.Controller;
@@ -12,6 +13,8 @@ namespace w4ndrv.UI
     {
         public static View_Controller Instance;
         public JoystickCustom MovementJoystick;
+        public Image Hpbar;
+
         //button
         [Header("Button")]
         public List<AbilitySlot> AbilitySlots = new();
@@ -21,6 +24,11 @@ namespace w4ndrv.UI
            
             if(Instance == null)
                 Instance = this;
+        }
+
+        public void UpdateHP(float currentHp)
+        {
+            Hpbar.rectTransform.DOScaleX(currentHp, 0.2f);
         }
 
 

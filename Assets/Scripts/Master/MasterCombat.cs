@@ -237,7 +237,7 @@ namespace w4ndrv.Master
             _animator.Play("skill2", 1, 0);
             Collider[] enemyCollider = Physics.OverlapSphere(transform.position, 9f, _enemyMask);
 
-            if (IsServer == false || IsServer)
+            if (IsServer == false)
             {
                 GameObject fxStart = Instantiate(_fxStartSkill2, transform.position, Quaternion.identity);
                 fxStart.SetActive(true);

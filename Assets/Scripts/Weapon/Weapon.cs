@@ -10,6 +10,7 @@ namespace w4ndrv.Weapon
 
     public class Weapon : NetworkBehaviour
     {
+        [SerializeField] private bool IsPlayer;
         private void OnTriggerEnter(Collider other)
         {
             if (IsOwner == true)
@@ -21,13 +22,13 @@ namespace w4ndrv.Weapon
                     }
             } 
 
-            if(IsServer == true)
+            if(IsServer == true && IsPlayer == false)
             {
-
                 if (other.CompareTag("Player"))
-                    if (other.transform.root.TryGetComponent<IMasterDamageable>(out var masterDamageable))
+                    
+                    if (other.transform.root.TryGetComponent<MasterDamageable>(out var masterDamageable))
                     {
-                        
+                        HitPlayer(masterDamageable);
                     }
             }
            
@@ -39,11 +40,11 @@ namespace w4ndrv.Weapon
             zombieDamageable.TakeDamage(1);
         }
 
-        //[ServerRpc]
-        //public void HitEnemy(ZombieDamageable zombieDamageable)
-        //{
-        //    zombieDamageable.TakeDamage(1);
-        //}
+        public void HitPlayer(MasterDamageable masterDamageable)
+        {
+            masterDamageable.TakeDamage(5);
+
+        }
 
     }
 }
