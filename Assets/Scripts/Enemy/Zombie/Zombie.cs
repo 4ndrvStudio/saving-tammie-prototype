@@ -11,8 +11,9 @@ namespace w4ndrv.Enemy
     using FishNet.Object;
     using DG.Tweening;
     using w4ndrv.Civilian;
+  
 
-    public class Zombie : NetworkBehaviour
+    public class Zombie : Enemy
     {
         [SerializeField] private NavMeshAgent _navMeshAgent;
         [SerializeField] private LayerMask _playerMask;

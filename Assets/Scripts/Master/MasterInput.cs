@@ -52,7 +52,7 @@ namespace w4ndrv.Master
         {
             //  if (IsOwner == false)
             //      return;
-            AbilitySlots = UIController.Instance.AbilitySlots;
+            AbilitySlots = View_Controller.Instance.AbilitySlots;
 
             AbilitySlots.ForEach(abilitySlot =>
             {
@@ -86,8 +86,8 @@ namespace w4ndrv.Master
         // Update is called once per frame
         void Update()
         {
-            float horizontal = Input.GetAxisRaw("Horizontal") + UIController.Instance.MovementJoystick.Direction.x;
-            float vertical = Input.GetAxisRaw("Vertical") + UIController.Instance.MovementJoystick.Direction.y;
+            float horizontal = Input.GetAxisRaw("Horizontal") + View_Controller.Instance.MovementJoystick.Direction.x;
+            float vertical = Input.GetAxisRaw("Vertical") + View_Controller.Instance.MovementJoystick.Direction.y;
             Movement.x = horizontal;
             Movement.y = vertical;
         }

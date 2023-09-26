@@ -18,7 +18,7 @@ namespace w4ndrv.Master
         [SerializeField] private Transform _body;
 
         [field: SyncVar(ReadPermissions = ReadPermission.ExcludeOwner, OnChange = nameof(on_name))]
-        public string HunterName { get; [ServerRpc(RunLocally = true)] set; }
+        public string MasterName { get; [ServerRpc(RunLocally = true)] set; }
 
         [SerializeField] private TextMeshPro _nameText;
 
@@ -38,27 +38,19 @@ namespace w4ndrv.Master
             if (Instance == null)
                 Instance = this;
 
-            //if (string.IsNullOrEmpty(PVPUI.Instance.UserName))
-            //{
-            //    HunterName = "Hunter " + ObjectId;
-            //}
-            //else
-            //{
-            //    HunterName = PVPUI.Instance.UserName;
-            //}
+            if (string.IsNullOrEmpty(User.UserName))
+            {
+                MasterName = "Master " + ObjectId;
+            }
+            else
+            {
+                MasterName = User.UserName;
+            }
 
 
             gameObject.name = "Owner";
 
-
-            //var targetLookPoint = Resources.Load<GameObject>("Camera/LookPoint");
-            //GameObject lookPoint = Instantiate(targetLookPoint);
-            //lookPoint.GetComponent<TargetLookPoint>().TargetFollow = _body.transform;
-
             CameraManager.Instance.SetAimTarget(_body.transform);
-
-            //Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = true;
 
         }
     }

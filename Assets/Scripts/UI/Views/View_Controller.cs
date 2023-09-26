@@ -8,9 +8,9 @@ using w4ndrv.Master;
 
 namespace w4ndrv.UI
 {
-    public class UIController : MonoBehaviour
+    public class View_Controller : UIView
     {
-        public static UIController Instance;
+        public static View_Controller Instance;
         public JoystickCustom MovementJoystick;
         //button
         [Header("Button")]
