@@ -11,7 +11,7 @@ namespace w4ndrv.Core
 
         public static NetworkConnection Owner;
         //Name
-        private static string _userName { get; set; }
+        private static string _userName = null;
         public static string UserName => _userName;
 
         //Score

@@ -34,8 +34,9 @@ namespace w4ndrv.Master
 
             if (Instance == null)
                 Instance = this;
-            User.Owner = base.Owner;
 
+            User.Owner = base.Owner;
+            //set name
             if (string.IsNullOrEmpty(User.UserName))
             {
                 MasterName = "Master " + ObjectId;
@@ -44,10 +45,9 @@ namespace w4ndrv.Master
             {
                 MasterName = User.UserName;
             }
-
-
             gameObject.name = "Owner";
 
+            // aiming camera to owner player
             CameraManager.Instance.SetAimTarget(_body.transform);
 
         }

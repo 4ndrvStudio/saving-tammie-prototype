@@ -118,7 +118,6 @@ namespace w4ndrv.Master
         {
             attackData = default;
             bool canAbilityOrAttack = _masterState.IsAction || _masterState.IsAbilityCanMove;
-            //normal attack
             bool attackButton = canAbilityOrAttack ? false : _masterInput.PlayAttack;
             bool skill1Button = canAbilityOrAttack ? false : _masterInput.PlaySkill1;
             bool skill2Button = canAbilityOrAttack ? false : _masterInput.PlaySkill2;
@@ -139,7 +138,7 @@ namespace w4ndrv.Master
         [Replicate]
         private void Combat(AttackData attackData, bool asServer, Channel channel = Channel.Unreliable, bool replaying = false)
         {
-
+           
             if (attackData.AttackButton == true)
             {
                 AttackCount += 1;
@@ -167,8 +166,6 @@ namespace w4ndrv.Master
         {
             RenderCombat();
             RenderSkillTime();
-
-
         }
 
         private void RenderSkillTime()
@@ -185,6 +182,11 @@ namespace w4ndrv.Master
 
         private void RenderCombat()
         {
+            /* if count change 
+             * server and client will detect 
+             * and call to abilities and normal attack method
+             */
+
             if (AttackCount > _lastAttackCount)
             {
                 PlayAttack();
@@ -232,19 +234,21 @@ namespace w4ndrv.Master
         }
         public async void PlaySkill2()
         {
-            _animator.Play("skill2", 1, 0);
-            Collider[] enemyCollider = Physics.OverlapSphere(transform.position, 9f, _enemyMask);
 
+            _animator.Play("skill2", 1, 0);
+            //check enemy in range
+            Collider[] enemyCollider = Physics.OverlapSphere(transform.position, 9f, _enemyMask);
             if (IsServer == false)
             {
                 GameObject fxStart = Instantiate(_fxStartSkill2, transform.position, Quaternion.identity);
                 fxStart.SetActive(true);
                 Destroy(fxStart, 2f);
-
+                //first - find enemy in zone 
                 for (int i = 0; i < enemyCollider.Length; i++)
                 {
                     if (enemyCollider[i] != null)
                     {
+                        //instantiate select effect
                         GameObject fxSelect = Instantiate(_fxSelectSkill2, enemyCollider[i].transform.position + Vector3.up * 1f, _fxSelectSkill2.transform.rotation);
                         fxSelect.SetActive(true);
                         Destroy(fxSelect, 1.5f);
@@ -255,15 +259,18 @@ namespace w4ndrv.Master
             {
                 if (enemyCollider[i] != null)
                 {
+                    //await 200ms and excute fx, damage to target
                     await Task.Delay(200);
                     if (IsClient)
                     {
+                        //instantiate boom fx only in client
                         GameObject fxBoom = Instantiate(_fxBoomSkill2, enemyCollider[i].transform.position, Quaternion.identity);
                         fxBoom.SetActive(true);
                         Destroy(fxBoom, 2f);
                     }
                     if (IsServer)
                     {
+                        //apply damage to target only in server
                         if (enemyCollider[i].TryGetComponent<ZombieDamageable>(out var zombieDamageable))
                         {
                             zombieDamageable.TakeDamage(10);

@@ -103,11 +103,11 @@ namespace w4ndrv.Master
             UIManager.Instance.ToggleView(ViewName.Login);
             View_Controller.Instance.UpdateHP(1);
             SoundManager.Instance.PlayBackground(EBackgroundType.StartGame);
-            
         }
 
         public void PlayMaterialFX()
         {
+            //excute effect only for client
             if (IsClient)
             {
                 _lstBodyMat.ForEach(mat =>
