@@ -14,12 +14,10 @@ namespace FishNet.Utility.Performance
         #region Public.
         /// <summary>
         /// Cache for pooled NetworkObjects.
-        /// </summary>
+        /// </summary>  //Remove on 2024/01/01 Convert to IReadOnlyList.
         public IReadOnlyCollection<Dictionary<int, Stack<NetworkObject>>> Cache => _cache;
         private List<Dictionary<int, Stack<NetworkObject>>> _cache = new List<Dictionary<int, Stack<NetworkObject>>>();
         #endregion
-
-        public override Dictionary<int, Stack<NetworkObject>> GetCacheObjects(int collectionId) => _cache[collectionId];
 
         #region Serialized.
         /// <summary>

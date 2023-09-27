@@ -1318,6 +1318,15 @@ MonoBehaviour:
   _controller: {fileID: 775227591837585164}
   _animator: {fileID: 8815306642813320172}
   HP: 100
+  _lstBodySkinnedMesh:
+  - {fileID: 5477898865328444997}
+  - {fileID: 3647034916975310006}
+  _lstBodyMesh:
+  - {fileID: 6724274572954737122}
+  - {fileID: 5496146347930940674}
+  - {fileID: 5813786972218317297}
+  - {fileID: 7074924711688964390}
+  _lstBodyMat: []
 --- !u!1 &3350695404842176122
 GameObject:
   m_ObjectHideFlags: 0

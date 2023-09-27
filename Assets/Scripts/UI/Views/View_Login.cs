@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using w4ndrv.Core;
-using w4ndrv.Sound;
 
 namespace w4ndrv.UI
 {
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using w4ndrv.Core;
+    using w4ndrv.Sound;
+    using FishNet.Example;
     public class View_Login : UIView
     {
         [SerializeField] private NetworkHudCanvases _networkHud;
@@ -17,7 +18,6 @@ namespace w4ndrv.UI
         // Start is called before the first frame update
         void Start()
         {
-
             _btnPlay.onClick.AddListener(() =>
             {
                 if (_inputName.text.Length > 3 && _inputName.text.Length<=6)

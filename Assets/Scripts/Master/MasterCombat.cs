@@ -222,7 +222,7 @@ namespace w4ndrv.Master
         public void PlaySkill1()
         {
             _animator.SetBool("skill1", true);
-            _skill1Time = 7f;
+            _skill1Time = 2.5f;
         }
 
         void OnDrawGizmosSelected()
