@@ -527,6 +527,7 @@ MonoBehaviour:
   - {fileID: 1767888583990075293}
   - {fileID: 1321660231839889694}
   - {fileID: 8516770483718306096}
+  - {fileID: 0}
   - {fileID: 1615421115598908807}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -630,7 +631,7 @@ MonoBehaviour:
   _animator: {fileID: 5102204748143834508}
   _smoothFloats: 1
   _interpolation: 2
-  _clientAuthoritative: 1
+  _clientAuthoritative: 0
   _sendToOwner: 0
 --- !u!114 &1321660231839889694
 MonoBehaviour:
@@ -1118,7 +1119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c67a75eef238a4ab0d83cb458467b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 4067407496106557443}
   _networkObjectCache: {fileID: 4067407496106557443}
   IsPlayer: 0

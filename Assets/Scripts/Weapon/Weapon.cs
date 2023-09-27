@@ -12,10 +12,7 @@ namespace w4ndrv.Weapon
     {
         [SerializeField] private bool IsPlayer;
 
-        private void Start()
-        {
-            Debug.Log("IsServer " + IsServer);
-        }
+        private BoxCollider _boxCollider;
 
         private void OnTriggerEnter(Collider other)
         {
@@ -26,20 +23,19 @@ namespace w4ndrv.Weapon
                     {
                         HitEnemy(zombieDamageable);
                     }
-             
             }
-            if (IsServer == true && IsPlayer == false)
+
+            if (IsServer == false && IsPlayer == false)
             {
                 if (other.CompareTag("Player"))
-                {
+                {                  
                     if (other.transform.TryGetComponent<MasterDamageable>(out var masterDamageable))
                     {
-                        Debug.Log("Hit Player");
-                        Debug.Log(masterDamageable);
+                        HitPlayer(masterDamageable);
                     }
                 }
 
-                  
+
             }
 
         }
@@ -49,11 +45,10 @@ namespace w4ndrv.Weapon
         {
             zombieDamageable.TakeDamage(1);
         }
-        [ServerRpc]
+        [ServerRpc(RequireOwnership =false)]
         public void HitPlayer(MasterDamageable masterDamageable)
         {
             masterDamageable.TakeDamage(5);
-
         }
 
     }

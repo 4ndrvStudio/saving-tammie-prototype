@@ -40,6 +40,7 @@ namespace w4ndrv.Enemy
             _timeStageCount = 8f;
             //Instantiate object Pool
             InstanceFinder.NetworkManager.CacheObjects(_zombiePrefab, _objectPoolInstantiateCount, IsServer);
+        
         }
 
         private void Awake()
@@ -64,7 +65,7 @@ namespace w4ndrv.Enemy
             {
                 _canDisableAllZombie = true;
                 _timeStageCount += (float)InstanceFinder.TimeManager.TickDelta;
-               
+
                 if (_timeStageCount >= _timeStage)
                 {
 

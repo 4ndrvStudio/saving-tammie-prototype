@@ -33,11 +33,11 @@ namespace w4ndrv.Master
         {
             base.OnStartClient();
             canDamage = true;
+
         }
 
         private void on_health(int prev, int next, bool asServer)
         {
-            Debug.Log("Take Damage!");
             //interact in owner
             if (IsOwner == true && canDamage == true)
             {
@@ -60,15 +60,11 @@ namespace w4ndrv.Master
 
         }
 
-        public void TakeDamage(int damge)
+        public void TakeDamage(int damage)
         {
             if (IsServer == false)
                 return;
-            HP-= damge;
-            Debug.Log("Take Dame: " + true);
-            Debug.Log("Collider: " + _controller.enabled);
-            Debug.Log("CanDamage: " + canDamage);
-
+            HP-= damage;
         }
 
         public async void TakeOutGame()
@@ -79,6 +75,7 @@ namespace w4ndrv.Master
             UIManager.Instance.HidePopup(PopupName.Death);
             LeaveRoom(base.Owner);
             UIManager.Instance.ToggleView(ViewName.Login);
+            View_Controller.Instance.UpdateHP(1);
             SoundManager.Instance.PlayBackground(EBackgroundType.StartGame);
             
         }
